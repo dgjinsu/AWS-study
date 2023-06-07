@@ -5,6 +5,7 @@
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/ee6c90f1-1c08-46de-9d7d-65522ccfee19)
 
 * t2.micro 사용 (프리티어 사용 가능)
+ * 인스턴스를 탄력적 IP 주소에 연결하지 않은 시간당 비용이 $0.005 (프리티어로 만들어도 탄력 IP 부여하지 않으면 요금 발생 가능) 
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/d883ed5b-7a45-41a0-8a9a-cee3d85de196)
 
 * 키페어 생성
@@ -25,3 +26,5 @@
  * HTTP 연결시 사용됩니다.
 
  * HTTPS 연결시 사용됩니다.
+
+
