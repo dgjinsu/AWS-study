@@ -60,10 +60,11 @@ public class MemberController {
      * 회원가입
      */
     @PostMapping("/join")
+    @ResponseBody
     public String join(@ModelAttribute JoinFormDto joinFormDto) {
         Long savedMemberId = memberService.join(joinFormDto);
         log.info("회원가입 완료 id=" + savedMemberId);
-        return "redirect:/login";
+        return "회원가입 완료";
     }
 
     /**
