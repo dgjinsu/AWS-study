@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/register.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Register</title>
+  </head>
+  <body>
+    <div class="register-header">Sign Up</div>
+    <form action="#" method="" class="login__register" id="resister">
+      <div class="전체틀" id="123">
+        <div class="signup" id="123">
+          <div class="회원가입상자" id="33279:439">
+            <div class="id-box" id="33279:400">
+              <p class="input-title" id="33279:401">ID</p>
+              <input
+                type="text"
+                name="user-id"
+                class="input-frame"
+                id="id"
+                placeholder="사용하실 아이디를 입력하세요"
+              />
+            </div>
+            <button onclick="checkDuplicate()">중복 체크</button>
+            <div id="duplicateResult"></div>
+
+            <div class="pw-box" id="33279:400">
+              <p class="input-title" id="33279:401">PW</p>
+              <input
+                type="password"
+                name="pw"
+                class="input-frame"
+                id="pw"
+                placeholder="사용하실 패스워드를 입력하세요"
+              />
+            </div>
+
+            <div class="pwcheck-box" id="33279:400">
+              <p class="input-title" id="33279:401">PW CHECK</p>
+              <input
+                type="password"
+                name="pw_check"
+                class="input-frame"
+                id="pw_check"
+                placeholder="사용하실 패스워드를 확인하세요"
+              />
+            </div>
+
+            <div class="name-box" id="33279:400">
+              <p class="input-title" id="33279:401">Name</p>
+              <input
+                type="text"
+                name="name"
+                class="input-frame"
+                id="name"
+                placeholder="본인의 이름을 입력하세요"
+              />
+            </div>
+
+            <div class="Nickname-box" id="33279:400">
+              <p class="input-title" id="33279:401">Nickname</p>
+              <input
+                type="text"
+                name="nickname"
+                class="input-frame"
+                id="nickname"
+                placeholder="사용하실 닉네임을 입력하세요"
+              />
+            </div>
+
+            <div class="Phone-box" id="33279:400">
+              <p class="input-title" id="33279:401">Phone</p>
+              <input
+                type="tel"
+                name="phone"
+                class="input-frame"
+                id="phone"
+                placeholder="본인의 전화번호를 입력하세요"
+              />
+            </div>
+
+            <div class="Department-box" id="33279:400">
+              <p class="input-title" id="33279:401">Department</p>
+              <input
+                type="text"
+                name="department"
+                class="input-frame"
+                id="department"
+                placeholder="본인의 소속을 입력하세요"
+              />
+            </div>
+          </div>
+        </div>
+        <button type="button" class="joincancel-btn" onclick="joinbtn()">Join</button>
+        <button type="button" class="joincancel-btn" onclick="cancelbtn()">Cancel</button>
+      </div>
+
+      <script>
+        function joinbtn() {
+          window.location.href = '/src/main/resources/templates/qaList.html';
+        }
+        function cancelbtn() {
+          window.location.href = '/src/main/resources/templates/login.html';
+        }
+
+        function checkDuplicate() {
+          var usernameInput = document.getElementById('id'); // 수정된 부분
+          var duplicateResult = document.getElementById('duplicateResult'); // 수정된 부분
+
+          // AJAX 요청
+          $.ajax({
+            type: 'GET',
+            url: '/validation-id', // 서버로 경로 지정
+            data: { id: usernameInput.value },
+            success: function (result) {
+              if (result) {
+                alert('사용 가능한 아이디입니다.');
+              } else {
+                alert('이미 사용 중인 아이디입니다.');
+              }
+            },
+            error: function () {
+              alert('서버 오류가 발생했습니다.');
+            },
+          });
+        }
+      </script>
+    </form>
+  </body>
+</html>
