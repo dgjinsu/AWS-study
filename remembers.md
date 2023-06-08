@@ -1,7 +1,4 @@
-## AWS
-
-
-### EC2
+## EC2
 
 * 인스턴스 생성
 * ubuntu 선택
@@ -32,7 +29,9 @@
 
 **여기까지 완료 했으면 ec2를 생성 완료하고 관계형 DB를 쓴다면 RDS를 만들어야 한다.**
 
-### RDS 
+
+
+## RDS 
 
 * RDS 는 mysql로 만들어주겠다.
 
@@ -82,5 +81,24 @@ spring:
 runtimeOnly("com.mysql:mysql-connector-j")
 ```
 
+
+
+
+
+## 다운 받은 키 페어를 통해 ssh 서버에 접속 (ec2에 접속)
+
+* putty 설치
+* puttyGen 도 함께 설치되는데 여기서 .pem 파일을 .ppk 파일로 바꿀 수 있다.
+* load 를 클릭하고 .pem 파일을 선택한 후 save private key 버튼을 클릭하면 .ppk 파일로 바꿀 수 있다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/78ffe8d9-b5cc-4f70-a2f7-b3d7af4bdcd9)
+
+* putty 를 실행하고 HostName에 ubuntu@{탄력적IP주소} 를 입력한다
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/32c84ff0-e986-405a-8163-95d03af3591e)
+
+* SSH -> Auth -> Credentials 에 들어가 아까 만든 ppk 파일을 올려주고 open 을 누른다. 
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/ecd0a1eb-343d-4620-a470-ccdd5b661d8f)
+
+* 이로써 키-페어로 ec2에 연결 완료했다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/c9ef462f-0f52-4e7d-b2bd-702337ed0b3c)
 
 
