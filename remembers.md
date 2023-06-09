@@ -92,7 +92,7 @@ runtimeOnly("com.mysql:mysql-connector-j")
 * load 를 클릭하고 .pem 파일을 선택한 후 save private key 버튼을 클릭하면 .ppk 파일로 바꿀 수 있다.
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/78ffe8d9-b5cc-4f70-a2f7-b3d7af4bdcd9)
 
-* putty 를 실행하고 HostName에 ubuntu@{탄력적IP주소} 를 입력한다
+* putty 를 실행하고 HostName에 ubuntu@{탄력적IP주소} 를 입력한다.
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/32c84ff0-e986-405a-8163-95d03af3591e)
 
 * SSH -> Auth -> Credentials 에 들어가 아까 만든 ppk 파일을 올려주고 open 을 누른다. 
