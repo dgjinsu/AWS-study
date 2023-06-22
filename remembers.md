@@ -94,6 +94,42 @@ runtimeOnly("com.mysql:mysql-connector-j")
 ```
 
 
+* 생성이 완료 되었으면 이제 몇가지 필수 설정을 해야할 차례
+* 이제 파라미터 그룹을 생성해줘야 한다.
+* 파라미터 그룹 패밀리는 방금전에 생성했던 mySql 버전과 같은 버전으로 맞춰준다.
+* 
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/02aba126-8611-4cd0-8d53-4a1a2b1bac1b)
+
+
+* 제일 먼저 Time Zone을 변경해준다. 검색창에 time_zone을 검색한 뒤 값을 Asia/Seoul로 변경한다. 변경 후 체크박스를 체크하고 재설정을 선택한다.
+* 재설정 하겠냐고 물어보는데 확인 누르면 됨
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/791e7ae9-252b-4f8e-b91d-ffc5c14e9bb6)
+
+* character을 검색한 뒤 6개 항목에 대해 값을 utf8mb4로 변경한다.
+ * character_set_client
+ * character_set_connection
+ * character_set_database
+ * character_set_filesystem
+ * character_set_results
+ * character_set_server
+* collation을 검색한 뒤 아래 항목에 대해 값을 utf8mb4_general_ci로 변경하고 역시 재설정 한다.
+ * collation_connection
+ * collation_server
+ * utf8mb4는 utf8에서 😀나 😍와 같은 이모지 저장이 가능해진 Character Set이다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/de5bbdbc-d8c5-4f55-8815-367f0d10a444)
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/e7db1fa9-9a52-4a99-bb4a-e66b70b32540)
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/7f438fdc-564a-468e-ae4b-c59328a6e94e)
+
+* DB에 파라미터 연결
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/ea568e1f-dfd7-42ff-a15c-a32c05185fb8)
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/e0a2b0a0-5ee2-42d4-b254-8a73b6fa3e4a)
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/b9b9847a-5a18-4e31-bc5b-edbf9b939e01)
+
+* 마지막으로 재부팅 해주면 된다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/db263cee-5280-4cf7-b36b-78d47d72415f)
+
+
 
 
 
