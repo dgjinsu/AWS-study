@@ -1,0 +1,49 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # use swagger & css
+  application:
+    name: user-service
+
+  main:
+    allow-circular-references: true
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/link-library
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://link-library-db.coz9al7ljo0h.ap-northeast-2.rds.amazonaws.com:3306/link_library_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: linklibrary2023
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true # sql 문 포맷
+        default_batch_fetch_size: 100  # batch size 설정
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  redis:
+    host: link-library-inmemory-001.qjkuoz.0001.apn2.cache.amazonaws.com:6379
+#    host: localhost
+    port: 6379
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+logging.level:
+  org.hibernate.SQL: trace # 디버그 모드로 sql 출력
+
+file:
+#  dir: C:/Users/김진수/link-library/ 19진수 경로
+  dir: C:\Users\astar\linkLibraryImages/
+
+jwt:
+  secret: gsgsefzsefesgazseffzsefgzsgzsfafaesfaesgaseasdgasfasegsegsgasefsegzsegfasefaegaefsefsegasezds
+
