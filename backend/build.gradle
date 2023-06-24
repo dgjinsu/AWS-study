@@ -61,7 +61,7 @@ dependencies {
 	implementation 'org.json:json:20200518'
 
 	// redis 적용
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.4.10'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
 
 	//map struct 적용
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
