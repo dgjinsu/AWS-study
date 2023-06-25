@@ -160,9 +160,13 @@ runtimeOnly("com.mysql:mysql-connector-j")
 
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/051325a8-3c7b-4995-9861-40b51191f0b5)
 
-* 자바 17 설치
+* 자바 17 설치 or 11 설치
 
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/3ca61ab4-b13b-4d42-82a9-854412181177)
+
+```java
+$ sudo apt-get install openjdk-11-jdk
+```
 
 * 설치 후 버전 확인
 
@@ -182,6 +186,56 @@ runtimeOnly("com.mysql:mysql-connector-j")
 
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/5ec0cc89-b74d-4228-8da9-d76340e9ba8b)
 
+**위 처럼 스왑 메모리를 이용하는 방법보다 로컬에서 jar build 후 git에 올리는게 더 좋은 것 같다**
+
+
+## Redis 적용
+* 우선 apt 업데이트
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/2b0894f8-4c03-4d2c-9202-971badc74d53)
+
+* redis 설치
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/d9282bca-bbe2-4d8f-90b1-857886adc54f)
+
+* 설치 후에 redis-server --version 명령어를 입력했을 때 아래와 같이 설치된 redis-server의 버전 정보가 뜬다면 설치에 성공한 것
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/864580a8-02b7-48c5-9b3f-a94ee9c49bb2)
+
+* redis-server가 잘 설치되었다면 redis-cli를 통해 redis-server가 잘 동작하는지 확인
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/277df3bb-ef72-4952-963b-8507ae32f82a)
+
+* 아래 처럼 테스트 가능 / 나중에 비밀번호 설정을 할텐데 그땐 (error) NOAUTH Authentication required. 이런 에러가 뜰 것이다. 127.0.0.1:6379> AUTH {비밀번호} 를 입력해야 한다.
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/e92a1428-0e5f-4372-a2ca-ba7ee1b54c16)
+
+* 이제 외부에서도 EC2 인스턴스에 설치된 redis에 접속할 수 있도록 설정을 해야 한다. redis 설정들은 redis.conf 파일에서 할 수 있다.
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/831f26e6-68bc-43f3-b85c-f7913654aae7)
+
+* 변경하려는 redis 설정 값들은 redis 접속 비밀번호, redis에 접속 가능한 ip 주소, redis가 사용할 max 메모리, 메모리가 가득 찼을 때 데이터 교체 알고리즘이다.
+* 먼저 비밀번호 변경이다. requirepass foobared라고 적힌 라인의 주석(#)을 제거하고 foobared 부분에 원하는 비밀번호를 입력하면 된다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/1714d948-b2df-4603-996b-c84a23a12283)
+
+* redis에 접속 가능한 ip 주소를 변경해야 한다. 접속 가능한 ip 주소는 bind 옵션으로 설정 가능하다. bind 뒤에 있는 127.0.0.1 ::1 부분을 0.0.0.0으로 변경하면 된다. redis는 bind 옵션에 지정한 ip에서 오는 connection만 허용한다. 현재 127.0.0.1로 되어있으므로 local에서의 연결만 허용한다. 이 값을 0.0.0.0으로 바꿔 모든 ip에서 오는 connection을 허용하도록 한다.
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/75ba982c-cdb5-48a8-9a28-881f65a064e3)
+
+* max 메모리 설정은 maxmemory 옵션으로 설정 가능하다. maxmemory <bytes> 라인의 주석(#)을 해제하고 <bytes> 부분에 원하는 max 메모리 값을 입력한다. 무료 EC2 인스턴스의 메모리 용량이 1GB 밖에 되지 않아 maxmemory를 500mb로 입력해준다.
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/deabc627-f21b-489e-b231-da7f07b585e0)
+
+* redis는 인 메모리 데이터베이스이기 때문에 용량이 많이 크지 않다. 그렇기 때문에 데이터가 메모리에 가득 찼을 때 새로운 데이터가 저장된다면 어떤 데이터를 뺄 지에 대한 알고리즘을 설정할 수 있다. 데이터 교체 알고리즘은 maxmemory-policy 옵션으로 설정할 수 있다. 나는 모든 키에 대해서 사용된 지 가장 오래된 데이터를 삭제하는 방법인 allkeys-lru 알고리즘을 선택했다. maxmemory-policy  라인의 주석(#)을 해제하고 noeviction 부분에 원하는 데이터 교체 알고리즘 값을 넣어준다.
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/e8b06f35-82dc-4b02-84ea-b05e7a6dba29)
+
+* redis는 인 메모리 데이터베이스이기 때문에 redis-server가 실행 중인 상태여야 사용할 수 있다. 그렇기 때문에 EC2 인스턴스를 닫아도 redis-server가 계속 실행중인 상태를 유지할 수 있도록 백그라운드 실행을 해야 한다.
+* redis-server 실행 이후 redis.conf 파일을 수정했다면 sudo systemctl restart redis-server 명령어를 통해 redis-server를 재시작해야 합니다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/b8f4ae77-f133-46bc-8b60-c99c08d6e76f)
+
+
+### 설치가 완료되었다면 redis 포트를 열어줘야 한다. 인바운드 규칙에 6379 포트를 열어준다.
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/68440c0d-9e93-4360-b30d-1427107f9690)
 
 
 
