@@ -29,8 +29,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   redis:
-    host: link-library-inmemory-001.qjkuoz.0001.apn2.cache.amazonaws.com
-#    host: localhost
+#    host: link-library-inmemory-001.qjkuoz.0001.apn2.cache.amazonaws.com
+    host: localhost
     port: 6379
 
   servlet:
@@ -43,6 +43,17 @@ logging.level:
 file:
 #  dir: C:/Users/김진수/link-library/ 19진수 경로
   dir: C:\Users\astar\linkLibraryImages/
+
+# s3 관련 설정
+cloud:
+  aws:
+    s3:
+      bucket: linklibrarybucket
+    stack.auto: false #기본 cloudFormation 구성 시작 사용 x
+    region.static: ap-northeast-2 #한국
+    credentials:
+      accessKey: AKIAVIV2F6ANX6LMBOV4
+      secretKey: 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
 
 jwt:
   secret: gsgsefzsefesgazseffzsefgzsgzsfafaesfaesgaseasdgasfasegsegsgasefsegzsegfasefaegaefsefsegasezds

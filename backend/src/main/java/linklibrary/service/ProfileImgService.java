@@ -1,5 +1,7 @@
 package linklibrary.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import linklibrary.entity.ProfileImg;
 import linklibrary.entity.User;
 import linklibrary.repository.ProfileImgRepository;
@@ -26,6 +28,45 @@ public class ProfileImgService {
 
     @Value("${file.dir}")
     String fileDir;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    private final AmazonS3Client amazonS3Client;
+
+    public String uploadImgS3(MultipartFile multipartFile, Long userId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("엔티티를 찾을 수 없습니다.[ProfileImgService]"));
+
+            String uuid = UUID.randomUUID().toString();
+
+            String fileName = uuid + multipartFile.getOriginalFilename();
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(multipartFile.getContentType());
+            metadata.setContentLength(multipartFile.getSize());
+            amazonS3Client.putObject(bucket, fileName, multipartFile.getInputStream(), metadata);
+
+            ProfileImg profileImg = ProfileImg.builder().user(user).storeFileName(fileName).build();
+            profileImgRepository.save(profileImg);
+            return fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getImgPath(String fileName) {
+        return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+
+
+
+
+
+
+
+
 
     public ProfileImg uploadImg(MultipartFile multipartFile, Long userId) throws IOException {
         if (multipartFile.isEmpty()) {

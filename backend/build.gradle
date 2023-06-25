@@ -70,6 +70,9 @@ dependencies {
 	//mysql 설정
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	//aws s3 의존성 추가
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	compileOnly 'org.projectlombok:lombok'
 //	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
