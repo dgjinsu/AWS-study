@@ -237,9 +237,62 @@ $ sudo apt-get install openjdk-11-jdk
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/b8f4ae77-f133-46bc-8b60-c99c08d6e76f)
 
 
-### 설치가 완료되었다면 redis 포트를 열어줘야 한다. 인바운드 규칙에 6379 포트를 열어준다.
+* 설치가 완료되었다면 redis 포트를 열어줘야 한다. 인바운드 규칙에 6379 포트를 열어준다.
 
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/68440c0d-9e93-4360-b30d-1427107f9690)
 
+## Elasti Cache - Redis 생성
 
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/84582542-0ae3-4ab2-822b-f6502a82792b)
+
+* 클러스터 설정은 아래와 같이 해준다. 복제본 디폴트 개수는 2개인데 비용 부과 이슈로 0개로 하는게 낫다고 한다. 또한 free-tier를 사용한다면 t2.micro로 셋팅해야 별도로 요금이 부과되지 않는다.
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/40de762c-47dd-40c4-9a7b-d11f1cef1ec5)
+
+* 서브넷 그룹 설정
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/c58fb779-89a3-41c7-8772-c4c31cadd54f)
+
+* 보안 그룹은 redis 의 port(6379) 를 열어두는 보압그룹을 적용해주면 된다. 나머지 로깅 처리는 다 default로 하고 생성
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/16257df9-b9d6-46d0-a4f3-0a87a1c1e96f)
+
+* 아래는 Redis 와 Spring Boot 의 간단한 아키텍쳐 이다
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/461c307f-80fc-4662-9510-30565eb2f3c8)
+
+* redis gradle 설정 (스프링부트 2.x까지 문제없었음)
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/ac8c7a4f-3386-4154-aaaf-c1896b23eb5b)
+
+ 
+* redis 관련 yml 설정
+* 엔드 포인트는 redis 클러스터 -> 생성된 redis 클릭 -> 노드 에 있는 primary 엔드포인트를 사용하면 된다. 이때 .com 까지만 사용하고 뒤에 6379는 빼고 넣어줘야 한다. 이거 때문에 3시간 날렸다..
+
+![image](https://github.com/dgjinsu/AWS-study/assets/97269799/4814d647-ccf7-483f-b183-31c73b1502cc)
+
+* redis config는 아래처럼 작성해줬다.
+```java
+@RequiredArgsConstructor
+@Configuration
+@EnableRedisRepositories
+public class RedisRepositoryConfig {
+    private final RedisProperties redisProperties;
+
+    //lettuce
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        return redisTemplate;
+    }
+}
+```
 
