@@ -195,6 +195,7 @@ $ sudo apt-get install openjdk-11-jdk
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/2b0894f8-4c03-4d2c-9202-971badc74d53)
 
 * redis 설치
+* 
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/d9282bca-bbe2-4d8f-90b1-857886adc54f)
 
 * 설치 후에 redis-server --version 명령어를 입력했을 때 아래와 같이 설치된 redis-server의 버전 정보가 뜬다면 설치에 성공한 것
@@ -215,6 +216,7 @@ $ sudo apt-get install openjdk-11-jdk
 
 * 변경하려는 redis 설정 값들은 redis 접속 비밀번호, redis에 접속 가능한 ip 주소, redis가 사용할 max 메모리, 메모리가 가득 찼을 때 데이터 교체 알고리즘이다.
 * 먼저 비밀번호 변경이다. requirepass foobared라고 적힌 라인의 주석(#)을 제거하고 foobared 부분에 원하는 비밀번호를 입력하면 된다.
+
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/1714d948-b2df-4603-996b-c84a23a12283)
 
 * redis에 접속 가능한 ip 주소를 변경해야 한다. 접속 가능한 ip 주소는 bind 옵션으로 설정 가능하다. bind 뒤에 있는 127.0.0.1 ::1 부분을 0.0.0.0으로 변경하면 된다. redis는 bind 옵션에 지정한 ip에서 오는 connection만 허용한다. 현재 127.0.0.1로 되어있으므로 local에서의 연결만 허용한다. 이 값을 0.0.0.0으로 바꿔 모든 ip에서 오는 connection을 허용하도록 한다.
@@ -231,10 +233,12 @@ $ sudo apt-get install openjdk-11-jdk
 
 * redis는 인 메모리 데이터베이스이기 때문에 redis-server가 실행 중인 상태여야 사용할 수 있다. 그렇기 때문에 EC2 인스턴스를 닫아도 redis-server가 계속 실행중인 상태를 유지할 수 있도록 백그라운드 실행을 해야 한다.
 * redis-server 실행 이후 redis.conf 파일을 수정했다면 sudo systemctl restart redis-server 명령어를 통해 redis-server를 재시작해야 합니다.
+
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/b8f4ae77-f133-46bc-8b60-c99c08d6e76f)
 
 
 ### 설치가 완료되었다면 redis 포트를 열어줘야 한다. 인바운드 규칙에 6379 포트를 열어준다.
+
 ![image](https://github.com/dgjinsu/AWS-study/assets/97269799/68440c0d-9e93-4360-b30d-1427107f9690)
 
 
