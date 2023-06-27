@@ -296,3 +296,6 @@ public class RedisRepositoryConfig {
 }
 ```
 
+
+## S3 버킷 적용
+
